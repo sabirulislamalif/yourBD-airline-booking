@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>yourBD | 1-Minute Airline Booking System</title>
+  <meta name="description" content="Book Bangladeshi domestic and international flights in under 60 seconds with yourBD's high-speed glassmorphic airline booking system.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Background overlay particles/glow -->
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- Header Nav -->
+  <header>
+    <div class="header-container">
+      <div class="logo-area" id="btn-home">
+        <div class="logo-icon">
+          <i class="fa-solid fa-plane-up"></i>
+        </div>
+        <div class="logo-text">
+          <span class="brand-name">yourBD</span>
+          <span class="brand-sub">1-MIN BOOK</span>
+        </div>
+      </div>
+
+      <!-- The 60-Second Challenge Timer -->
+      <div class="timer-widget" id="timer-widget">
+        <div class="timer-icon">
+          <i class="fa-solid fa-stopwatch" id="timer-icon-spin"></i>
+        </div>
+        <div class="timer-details">
+          <div class="timer-label">BOOKING CHALLENGE</div>
+          <div class="timer-countdown" id="timer-display">01:00.00</div>
+        </div>
+        <div class="timer-progress-bar">
+          <div class="timer-progress-fill" id="timer-fill"></div>
+        </div>
+      </div>
+
+      <!-- Auth section -->
+      <div class="auth-widget">
+        <div class="guest-mode" id="auth-guest">
+          <button class="btn btn-secondary btn-sm" id="btn-open-login">
+            <i class="fa-solid fa-user-plus"></i> Sign In
+          </button>
+        </div>
+        <div class="user-mode hidden" id="auth-user">
+          <button class="btn btn-secondary btn-sm" id="btn-open-bookings" style="margin-right: 0.8rem; font-family: var(--font-title);">
+            <i class="fa-solid fa-ticket"></i> My Bookings
+          </button>
+          <div class="user-info">
+            <div class="user-details">
+              <span class="user-name" id="profile-name">Tanvir Rahman</span>
+              <span class="user-miles" id="profile-miles"><i class="fa-solid fa-crown"></i> 4,500 Miles</span>
+            </div>
+            <img class="user-avatar" id="profile-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&fit=crop&q=80" alt="Avatar">
+          </div>
+          <button class="btn-logout" id="btn-logout" title="Sign Out">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notification Banner -->
+  <div class="notification-container" id="notification-container"></div>
+
+  <!-- Main Workspace -->
+  <main class="main-content">
+    
+    <!-- Screen 1: Search & Explore -->
+    <section class="screen active" id="screen-search">
+      <div class="hero-section">
+        <h1 class="hero-title">Book Flights Anywhere in <span class="text-gradient">60 Seconds</span></h1>
+        <p class="hero-subtitle">High-speed digital booking network connecting Bangladesh to the world.</p>
+      </div>
+
+      <!-- Search Box Card -->
+      <div class="glass-card search-card">
+        <div class="search-tabs">
+          <button class="search-tab active" data-type="one-way">One-Way</button>
+          <button class="search-tab" data-type="round-trip">Round Trip</button>
+        </div>
+
+        <form class="search-form" id="search-form" autocomplete="off">
+          <div class="form-row">
+            <!-- Origin -->
+            <div class="input-group">
+              <label for="search-origin"><i class="fa-solid fa-plane-departure"></i> Origin</label>
+              <div class="select-wrapper">
+                <select id="search-origin" required>
+                  <option value="" disabled selected>Select Airport</option>
+                  <optgroup label="Bangladesh Hubs">
+                    <option value="DAC" selected>Dhaka - Hazrat Shahjalal (DAC)</option>
+                    <option value="CGP">Chittagong - Shah Amanat (CGP)</option>
+                    <option value="CXB">Cox's Bazar Airport (CXB)</option>
+                    <option value="ZYL">Sylhet - Osmani Int'l (ZYL)</option>
+                    <option value="JSR">Jessore Airport (JSR)</option>
+                    <option value="SPD">Saidpur Airport (SPD)</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+
+            <!-- Switch Icon -->
+            <div class="search-switch" id="btn-swap-airports">
+              <i class="fa-solid fa-right-left"></i>
+            </div>
+
+            <!-- Destination -->
+            <div class="input-group">
+              <label for="search-destination"><i class="fa-solid fa-plane-arrival"></i> Destination</label>
+              <div class="select-wrapper">
+                <select id="search-destination" required>
+                  <option value="" disabled>Select Airport</option>
+                  <optgroup label="Bangladesh Hubs">
+                    <option value="DAC">Dhaka - Hazrat Shahjalal (DAC)</option>
+                    <option value="CGP">Chittagong - Shah Amanat (CGP)</option>
+                    <option value="CXB" selected>Cox's Bazar Airport (CXB)</option>
+                    <option value="ZYL">Sylhet - Osmani Int'l (ZYL)</option>
+                    <option value="JSR">Jessore Airport (JSR)</option>
+                    <option value="SPD">Saidpur Airport (SPD)</option>
+                  </optgroup>
+                  <optgroup label="International Destinations">
+                    <option value="CCU">Kolkata - Netaji Subhash (CCU)</option>
+                    <option value="DXB">Dubai International (DXB)</option>
+                    <option value="LHR">London Heathrow (LHR)</option>
+                    <option value="SIN">Singapore Changi (SIN)</option>
+                    <option value="BKK">Bangkok - Suvarnabhumi (BKK)</option>
+                    <option value="KUL">Kuala Lumpur Int'l (KUL)</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- Departure Date -->
+            <div class="input-group">
+              <label for="search-date"><i class="fa-solid fa-calendar-days"></i> Departure Date</label>
+              <div class="date-chips">
+                <button type="button" class="date-chip active" id="chip-today">Today</button>
+                <button type="button" class="date-chip" id="chip-tomorrow">Tomorrow</button>
+                <button type="button" class="date-chip" id="chip-day-after">Day After</button>
+              </div>
+              <input type="date" id="search-date" required>
+            </div>
+
+            <!-- Passengers / Class -->
+            <div class="input-group">
+              <label for="search-class"><i class="fa-solid fa-crown"></i> Class & Passengers</label>
+              <div class="passengers-class-selector">
+                <select id="search-passengers">
+                  <option value="1">1 Passenger</option>
+                  <option value="2">2 Passengers</option>
+                  <option value="3">3 Passengers</option>
+                  <option value="4">4 Passengers</option>
+                </select>
+                <select id="search-class">
+                  <option value="economy">Economy Class</option>
+                  <option value="premium">Premium Eco</option>
+                  <option value="business">Business Class</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-large w-full mt-4" id="btn-search-flights">
+            <span class="btn-text">SEARCH FLIGHTS IN 1-CLICK</span>
+            <i class="fa-solid fa-circle-arrow-right btn-icon"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- Quick Destination Cards -->
+      <div class="presets-section">
+        <h2 class="section-title">Popular Routes & Instant Booking Presets</h2>
+        <p class="section-subtitle">Skip configuration and launch booking in exactly 1-click.</p>
+        
+        <div class="presets-grid">
+          <!-- Preset 1 -->
+          <div class="preset-card" data-origin="DAC" data-dest="CXB">
+            <div class="preset-bg" style="background-image: linear-gradient(180deg, rgba(9, 10, 15, 0.2) 0%, rgba(9, 10, 15, 0.95) 100%), url('https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=500&fit=crop&q=80')"></div>
+            <div class="preset-badge">FAST BOOK</div>
+            <div class="preset-content">
+              <div class="preset-route">Dhaka &rarr; Cox's Bazar</div>
+              <div class="preset-airline"><i class="fa-solid fa-plane"></i> US-Bangla Airlines</div>
+              <div class="preset-footer">
+                <span class="preset-price">From 5,500 BDT</span>
+                <span class="btn-circle"><i class="fa-solid fa-bolt"></i></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preset 2 -->
+          <div class="preset-card" data-origin="DAC" data-dest="CGP">
+            <div class="preset-bg" style="background-image: linear-gradient(180deg, rgba(9, 10, 15, 0.2) 0%, rgba(9, 10, 15, 0.95) 100%), url('https://images.unsplash.com/photo-1608958415210-9c2b4c6e9389?w=500&fit=crop&q=80')"></div>
+            <div class="preset-badge">COMMUTER</div>
+            <div class="preset-content">
+              <div class="preset-route">Dhaka &rarr; Chittagong</div>
+              <div class="preset-airline"><i class="fa-solid fa-plane"></i> Novoair</div>
+              <div class="preset-footer">
+                <span class="preset-price">From 4,800 BDT</span>
+                <span class="btn-circle"><i class="fa-solid fa-bolt"></i></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preset 3 -->
+          <div class="preset-card" data-origin="DAC" data-dest="LHR">
+            <div class="preset-bg" style="background-image: linear-gradient(180deg, rgba(9, 10, 15, 0.2) 0%, rgba(9, 10, 15, 0.95) 100%), url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=500&fit=crop&q=80')"></div>
+            <div class="preset-badge">DIRECT ROUTE</div>
+            <div class="preset-content">
+              <div class="preset-route">Dhaka &rarr; London (LHR)</div>
+              <div class="preset-airline"><i class="fa-solid fa-plane"></i> Biman Bangladesh</div>
+              <div class="preset-footer">
+                <span class="preset-price">From 85,000 BDT</span>
+                <span class="btn-circle"><i class="fa-solid fa-bolt"></i></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preset 4 -->
+          <div class="preset-card" data-origin="DAC" data-dest="DXB">
+            <div class="preset-bg" style="background-image: linear-gradient(180deg, rgba(9, 10, 15, 0.2) 0%, rgba(9, 10, 15, 0.95) 100%), url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=500&fit=crop&q=80')"></div>
+            <div class="preset-badge">POPULAR</div>
+            <div class="preset-content">
+              <div class="preset-route">Dhaka &rarr; Dubai (DXB)</div>
+              <div class="preset-airline"><i class="fa-solid fa-plane"></i> Biman Bangladesh</div>
+              <div class="preset-footer">
+                <span class="preset-price">From 48,000 BDT</span>
+                <span class="btn-circle"><i class="fa-solid fa-bolt"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Screen 2: Flight Options -->
+    <section class="screen" id="screen-flights">
+      <div class="screen-header">
+        <button class="btn-back" id="btn-back-to-search"><i class="fa-solid fa-chevron-left"></i> Modify Search</button>
+        <h2 class="screen-title-small" id="flights-route-title">Dhaka (DAC) &rarr; Cox's Bazar (CXB)</h2>
+        <div class="flight-query-summary" id="flights-date-summary">Date: Jun 9, 2026 | 1 Passenger | Economy</div>
+      </div>
+
+      <!-- Filters & Sorting -->
+      <div class="filters-row">
+        <div class="filter-options">
+          <button class="filter-btn active" data-sort="speed"><i class="fa-solid fa-bolt text-cyan"></i> Fastest</button>
+          <button class="filter-btn" data-sort="price"><i class="fa-solid fa-tags text-green"></i> Lowest Price</button>
+          <button class="filter-btn" data-sort="departure"><i class="fa-solid fa-clock"></i> Departure Time</button>
+        </div>
+        <div class="filter-stat">
+          Found <span id="flights-count" class="text-cyan font-bold">4</span> flights
+        </div>
+      </div>
+
+      <!-- Flights List -->
+      <div class="flights-list" id="flights-list-container">
+        <!-- Rendered Dynamically via JS -->
+      </div>
+    </section>
+
+
+    <!-- Screen 3: Interactive Seat Selection -->
+    <section class="screen" id="screen-seats">
+      <div class="screen-header">
+        <button class="btn-back" id="btn-back-to-flights"><i class="fa-solid fa-chevron-left"></i> Change Flight</button>
+        <h2 class="screen-title-small">Select Seat & Add-ons</h2>
+        <div class="flight-query-summary" id="seats-flight-summary">Biman Bangladesh BG-121 | Boeing 737</div>
+      </div>
+
+      <div class="seat-layout-container">
+        <!-- Left Side: Interactive Cabin Map -->
+        <div class="cabin-card glass-card">
+          <div class="cockpit">
+            <span class="cockpit-text">COCKPIT</span>
+          </div>
+          
+          <div class="cabin-exit">
+            <span>EXIT <i class="fa-solid fa-arrow-left"></i></span>
+            <span><i class="fa-solid fa-arrow-right"></i> EXIT</span>
+          </div>
+
+          <div class="seat-legend">
+            <div class="legend-item"><span class="legend-box available"></span> Available</div>
+            <div class="legend-item"><span class="legend-box selected"></span> Selected</div>
+            <div class="legend-item"><span class="legend-box occupied"></span> Occupied</div>
+          </div>
+
+          <div class="cabin-body">
+            <!-- Seat rows generated in JS. Standard configuration: row, letters, aisle. -->
+            <div class="seat-grid" id="cabin-seat-grid">
+              <!-- Dynamically populated rows -->
+            </div>
+          </div>
+
+          <div class="cabin-exit">
+            <span>EXIT <i class="fa-solid fa-arrow-left"></i></span>
+            <span><i class="fa-solid fa-arrow-right"></i> EXIT</span>
+          </div>
+        </div>
+
+        <!-- Right Side: Seat Summary & Upgrade -->
+        <div class="seat-checkout-summary">
+          <div class="glass-card summary-card">
+            <h3>Seat Selection Summary</h3>
+            <div class="divider"></div>
+            
+            <div class="summary-item">
+              <span class="summary-label">Base Seat Cost</span>
+              <span class="summary-val font-mono" id="summary-base-price">BDT 5,500</span>
+            </div>
+            
+            <div class="summary-item">
+              <span class="summary-label">Seat Choice</span>
+              <span class="summary-val" id="summary-seat-number">Not Selected</span>
+            </div>
+
+            <div class="summary-item">
+              <span class="summary-label">Category Upgrade</span>
+              <span class="summary-val font-mono text-cyan" id="summary-seat-upgrade">BDT +0</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="summary-item total">
+              <span class="summary-label">Subtotal</span>
+              <span class="summary-val text-gradient font-bold" id="summary-total-price">BDT 5,500</span>
+            </div>
+
+            <div class="add-ons-section mt-4">
+              <h4>Speed Add-ons (Optional)</h4>
+              <div class="addon-option" id="addon-fasttrack">
+                <input type="checkbox" id="chk-fasttrack">
+                <label for="chk-fasttrack">
+                  <span class="addon-title"><i class="fa-solid fa-person-running text-cyan"></i> Fast-Track Boarding</span>
+                  <span class="addon-price">+ BDT 800</span>
+                  <span class="addon-desc">Skip airport security queue in Dhaka</span>
+                </label>
+              </div>
+              <div class="addon-option" id="addon-extra-baggage">
+                <input type="checkbox" id="chk-extra-baggage">
+                <label for="chk-extra-baggage">
+                  <span class="addon-title"><i class="fa-solid fa-suitcase-rolling text-purple"></i> +10kg Excess Baggage</span>
+                  <span class="addon-price">+ BDT 1,200</span>
+                  <span class="addon-desc">Standard is 20kg. Increase to 30kg.</span>
+                </label>
+              </div>
+            </div>
+
+            <button class="btn btn-primary w-full mt-6" id="btn-confirm-seats">
+              <span>PROCEED TO SWIFT CHECKOUT</span>
+              <i class="fa-solid fa-circle-arrow-right btn-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Screen 4: Swift Checkout -->
+    <section class="screen" id="screen-checkout">
+      <div class="screen-header">
+        <button class="btn-back" id="btn-back-to-seats"><i class="fa-solid fa-chevron-left"></i> Change Seat</button>
+        <h2 class="screen-title-small">Swift Checkout</h2>
+        <div class="flight-query-summary">Verify Details & Slide to Confirm</div>
+      </div>
+
+      <div class="checkout-container">
+        <!-- Left Column: Form Info -->
+        <div class="checkout-forms">
+          
+          <!-- Quick Autofill Box (Exclusive UI feature for speed) -->
+          <div class="glass-card quick-autofill-box" id="autofill-banner">
+            <div class="autofill-info">
+              <i class="fa-solid fa-bolt text-cyan text-xl"></i>
+              <div>
+                <strong>Save Time with 1-Click Profile Autofill</strong>
+                <p class="text-sm opacity-80">Log in to automatically fill traveler details and payment info.</p>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-cyan" id="btn-autofill-action">Log In & Autofill</button>
+          </div>
+
+          <!-- Passenger Info Form -->
+          <div class="glass-card form-card">
+            <h3 class="card-title"><i class="fa-solid fa-id-card text-cyan"></i> Primary Traveler</h3>
+            <div class="divider"></div>
+            
+            <div class="form-grid">
+              <div class="input-group">
+                <label for="check-fname">Full Name (matches passport/NID)</label>
+                <input type="text" id="check-fname" placeholder="e.g. Tanvir Rahman" required>
+              </div>
+              <div class="input-group">
+                <label for="check-nid">NID / Passport Number</label>
+                <input type="text" id="check-nid" placeholder="e.g. 199326154388..." required>
+              </div>
+              <div class="input-group">
+                <label for="check-email">Email Address</label>
+                <input type="email" id="check-email" placeholder="tanvir@example.com" required>
+              </div>
+              <div class="input-group">
+                <label for="check-phone">Mobile Phone</label>
+                <input type="tel" id="check-phone" placeholder="e.g. +880 1712-345678" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loyalty Miles Offer (Only for Logged in Users) -->
+          <div class="glass-card form-card hidden" id="checkout-loyalty-panel">
+            <h3 class="card-title"><i class="fa-solid fa-crown text-gradient"></i> Redeem Biman Loyalty Miles</h3>
+            <div class="divider"></div>
+            <div class="loyalty-redeem-area">
+              <div class="loyalty-stats">
+                <span>Available Miles: <strong id="loyalty-miles-count">4,500</strong></span>
+                <span class="discount-display">Discount: <strong class="text-green" id="loyalty-discount-display">BDT 0</strong></span>
+              </div>
+              <input type="range" id="loyalty-miles-slider" min="0" max="4500" step="500" value="0" class="miles-slider">
+              <div class="slider-labels font-mono text-xs opacity-75">
+                <span>0 Miles (BDT 0)</span>
+                <span>2,250 Miles (BDT 1,125)</span>
+                <span>4,500 Miles (BDT 2,250)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Card Form -->
+          <div class="glass-card form-card">
+            <h3 class="card-title"><i class="fa-solid fa-credit-card text-purple"></i> Digital Payment Method</h3>
+            <div class="divider"></div>
+            
+            <div class="payment-tabs">
+              <button class="payment-tab active" data-method="card"><i class="fa-solid fa-credit-card"></i> Card</button>
+              <button class="payment-tab" data-method="bkash"><i class="fa-solid fa-mobile-screen-button"></i> bKash / Nagad</button>
+            </div>
+
+            <!-- Card Form Section -->
+            <div class="payment-method-fields" id="payment-card-fields">
+              <div class="card-form-grid">
+                <div class="input-group">
+                  <label for="card-num">Card Number</label>
+                  <input type="text" id="card-num" placeholder="4000 1234 5678 9010" maxlength="19" required>
+                </div>
+                <div class="input-group">
+                  <label for="card-name">Cardholder Name</label>
+                  <input type="text" id="card-name" placeholder="TANVIR RAHMAN" required>
+                </div>
+                <div class="form-row-compact">
+                  <div class="input-group">
+                    <label for="card-exp">Expiry (MM/YY)</label>
+                    <input type="text" id="card-exp" placeholder="12/28" maxlength="5" required>
+                  </div>
+                  <div class="input-group">
+                    <label for="card-cvv">CVV</label>
+                    <input type="password" id="card-cvv" placeholder="•••" maxlength="4" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- bKash / Mobile Wallet Section -->
+            <div class="payment-method-fields hidden" id="payment-wallet-fields">
+              <div class="wallet-form">
+                <div class="wallet-logo-row">
+                  <div class="wallet-badge bkash-badge">bKash</div>
+                  <div class="wallet-badge nagad-badge">Nagad</div>
+                </div>
+                <div class="input-group mt-3">
+                  <label for="wallet-phone">Mobile Wallet Number (11 Digits)</label>
+                  <input type="tel" id="wallet-phone" placeholder="017XXXXXXXX" maxlength="11">
+                </div>
+                <p class="text-xs opacity-75 mt-2"><i class="fa-solid fa-circle-info"></i> A secure OTP will be sent to this number to authorize the transaction.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive Card Preview & Slide to Book -->
+        <div class="checkout-summary-col">
+          <!-- Realtime Digital Credit Card Preview -->
+          <div class="credit-card-preview-container" id="credit-card-container">
+            <div class="credit-card" id="credit-card-object">
+              <!-- Front -->
+              <div class="card-face card-front">
+                <div class="card-glow"></div>
+                <div class="card-header-logo">
+                  <span class="card-brand">yourBD Pay</span>
+                  <i class="fa-brands fa-cc-visa card-issuer-icon"></i>
+                </div>
+                <div class="card-chip"></div>
+                <div class="card-number-preview" id="card-preview-number">•••• •••• •••• ••••</div>
+                <div class="card-footer-details">
+                  <div class="card-owner">
+                    <div class="label text-xxs opacity-75">CARDHOLDER</div>
+                    <div class="val text-sm font-semibold truncate" id="card-preview-name">YOUR NAME</div>
+                  </div>
+                  <div class="card-valid">
+                    <div class="label text-xxs opacity-75">EXPIRES</div>
+                    <div class="val text-sm font-semibold" id="card-preview-exp">MM/YY</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Back -->
+              <div class="card-face card-back">
+                <div class="card-magnetic-strip"></div>
+                <div class="card-signature-area">
+                  <div class="card-cvv-preview" id="card-preview-cvv">•••</div>
+                </div>
+                <div class="card-back-info text-xxs opacity-50">
+                  This mock digital payment card is encrypted securely for the One-Minute Booking speed run.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total breakdown -->
+          <div class="glass-card checkout-pricing-card">
+            <h3>Payment Summary</h3>
+            <div class="divider"></div>
+            
+            <div class="summary-item">
+              <span class="summary-label" id="summary-checkout-route">Dhaka &rarr; Cox's Bazar</span>
+              <span class="summary-val font-mono" id="summary-checkout-base">BDT 5,500</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Seat Upgrade</span>
+              <span class="summary-val font-mono" id="summary-checkout-seat-up">BDT +0</span>
+            </div>
+            <div class="summary-item hidden" id="summary-checkout-fasttrack-row">
+              <span class="summary-label">Fast-Track Boarding</span>
+              <span class="summary-val font-mono text-cyan">BDT +800</span>
+            </div>
+            <div class="summary-item hidden" id="summary-checkout-baggage-row">
+              <span class="summary-label">Excess Baggage (+10kg)</span>
+              <span class="summary-val font-mono text-purple">BDT +1,200</span>
+            </div>
+            <div class="summary-item hidden" id="summary-checkout-discount-row">
+              <span class="summary-label text-gradient">Loyalty Discount</span>
+              <span class="summary-val font-mono text-green" id="summary-checkout-discount">-BDT 0</span>
+            </div>
+
+            <div class="divider"></div>
+            
+            <div class="summary-item total">
+              <span class="summary-label">Amount to Pay</span>
+              <span class="summary-val text-gradient font-bold" id="summary-checkout-total">BDT 5,500</span>
+            </div>
+
+            <!-- Slide to Confirm Slider -->
+            <div class="slide-to-confirm-wrapper mt-6">
+              <div class="slide-track" id="slide-track">
+                <div class="slide-handle" id="slide-handle">
+                  <i class="fa-solid fa-angles-right handle-arrow"></i>
+                </div>
+                <div class="slide-text" id="slide-text">SLIDE TO BOOK INSTANTLY</div>
+              </div>
+            </div>
+            
+            <p class="booking-notice text-xxs text-center opacity-70 mt-3">
+              By confirming, you execute real-time ticket lock and allocation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Screen 5: Digital Boarding Pass / Ticket Receipt -->
+    <section class="screen" id="screen-ticket">
+      <div class="ticket-celebration-title">
+        <h2 class="text-gradient"><i class="fa-solid fa-circle-check text-green bounce-icon"></i> Booking Successful!</h2>
+        <p>Your ticket is issued. Boarding pass is ready below.</p>
+      </div>
+
+      <!-- High-tech 3D Boarding Pass Card Container -->
+      <div class="ticket-wrapper">
+        <div class="ticket-card" id="boarding-pass-ticket">
+          <!-- Ticket Header -->
+          <div class="ticket-header">
+            <div class="ticket-brand">
+              <i class="fa-solid fa-plane-up"></i> yourBD
+            </div>
+            <div class="ticket-badge-pill" id="ticket-carrier-name">US-BANGLA AIRLINES</div>
+            <div class="ticket-class" id="ticket-class-name">ECONOMY</div>
+          </div>
+          
+          <!-- Ticket Body -->
+          <div class="ticket-body">
+            <!-- Flight Route Visualizer -->
+            <div class="ticket-route-row">
+              <div class="route-airport">
+                <span class="airport-code" id="ticket-origin-code">DAC</span>
+                <span class="airport-name" id="ticket-origin-name">Dhaka</span>
+              </div>
+              
+              <div class="route-flight-decor">
+                <div class="decor-dot"></div>
+                <div class="decor-line">
+                  <i class="fa-solid fa-plane"></i>
+                </div>
+                <div class="decor-dot"></div>
+              </div>
+
+              <div class="route-airport right">
+                <span class="airport-code" id="ticket-dest-code">CXB</span>
+                <span class="airport-name" id="ticket-dest-name">Cox's Bazar</span>
+              </div>
+            </div>
+
+            <!-- Ticket Grid Info -->
+            <div class="ticket-grid">
+              <div class="grid-item">
+                <span class="item-lbl">PASSENGER NAME</span>
+                <span class="item-val truncate" id="ticket-passenger-name">TANVIR RAHMAN</span>
+              </div>
+              <div class="grid-item">
+                <span class="item-lbl">FLIGHT NO.</span>
+                <span class="item-val font-mono text-cyan" id="ticket-flight-no">BS-203</span>
+              </div>
+              <div class="grid-item">
+                <span class="item-lbl">SEAT NUMBER</span>
+                <span class="item-val font-mono text-gradient" id="ticket-seat-no">08F</span>
+              </div>
+              <div class="grid-item">
+                <span class="item-lbl">DEPARTURE DATE</span>
+                <span class="item-val" id="ticket-depart-date">09 JUN 2026</span>
+              </div>
+              <div class="grid-item">
+                <span class="item-lbl">BOARDING TIME</span>
+                <span class="item-val font-mono" id="ticket-boarding-time">13:15</span>
+              </div>
+              <div class="grid-item">
+                <span class="item-lbl">GATE</span>
+                <span class="item-val font-mono" id="ticket-gate">04-A</span>
+              </div>
+            </div>
+            
+            <!-- Separator Line (Perforated ticket style) -->
+            <div class="ticket-perforation">
+              <div class="perforated-circle-left"></div>
+              <div class="perforated-line"></div>
+              <div class="perforated-circle-right"></div>
+            </div>
+
+            <!-- Ticket Footer: QR code and stats -->
+            <div class="ticket-footer">
+              <div class="ticket-stats">
+                <div class="stat-bubble font-mono">
+                  <span class="bubble-lbl">BOOKING SPEED</span>
+                  <span class="bubble-val text-green" id="ticket-speed-time">32.84s</span>
+                </div>
+                <div class="stat-bubble font-mono">
+                  <span class="bubble-lbl">CHALLENGE RANK</span>
+                  <span class="bubble-val text-purple" id="ticket-badge-rank">GOLD SPEEDRUNNER</span>
+                </div>
+              </div>
+              
+              <div class="ticket-qr-container">
+                <!-- Inline SVG QR Code Mock -->
+                <svg class="ticket-qr" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Borders and grid pattern mocking QR code -->
+                  <path d="M5,5 h20 v20 h-20 z M10,10 h10 v10 h-10 z" fill="var(--text-light)" />
+                  <path d="M75,5 h20 v20 h-20 z M80,10 h10 v10 h-10 z" fill="var(--text-light)" />
+                  <path d="M5,75 h20 v20 h-20 z M10,80 h10 v10 h-10 z" fill="var(--text-light)" />
+                  <!-- Grid Noise -->
+                  <rect x="35" y="5" width="5" height="15" fill="var(--text-light)" />
+                  <rect x="45" y="10" width="10" height="5" fill="var(--text-light)" />
+                  <rect x="60" y="5" width="5" height="5" fill="var(--text-light)" />
+                  <rect x="35" y="25" width="15" height="5" fill="var(--text-light)" />
+                  <rect x="55" y="20" width="10" height="15" fill="var(--text-light)" />
+                  <rect x="75" y="35" width="10" height="5" fill="var(--text-light)" />
+                  <rect x="80" y="45" width="15" height="10" fill="var(--text-light)" />
+                  <rect x="5" y="35" width="15" height="10" fill="var(--text-light)" />
+                  <rect x="25" y="45" width="5" height="25" fill="var(--text-light)" />
+                  <rect x="35" y="50" width="25" height="5" fill="var(--text-light)" />
+                  <rect x="35" y="60" width="5" height="15" fill="var(--text-light)" />
+                  <rect x="45" y="65" width="20" height="10" fill="var(--text-light)" />
+                  <rect x="70" y="60" width="10" height="5" fill="var(--text-light)" />
+                  <rect x="80" y="70" width="15" height="5" fill="var(--text-light)" />
+                  <rect x="85" y="80" width="10" height="15" fill="var(--text-light)" />
+                  <rect x="70" y="85" width="10" height="10" fill="var(--text-light)" />
+                  <!-- Center airplane emblem inside QR -->
+                  <circle cx="50" cy="50" r="10" fill="#090a0f" />
+                  <path d="M47,50 l2,-6 l2,6 l4,0 l-5,2 l2,5 l-3,-3 l-3,3 l2,-5 l-5,-2 z" fill="var(--accent-cyan)" />
+                </svg>
+                <span class="qr-label font-mono">GATE SCAN PASS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons below boarding pass -->
+      <div class="ticket-actions mt-8">
+        <button class="btn btn-secondary" id="btn-print-ticket">
+          <i class="fa-solid fa-print"></i> Print Boarding Pass
+        </button>
+        <button class="btn btn-primary" id="btn-restart-booking">
+          <i class="fa-solid fa-rotate-left"></i> Book Another Flight
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Login Modal Overlay -->
+  <div class="modal-overlay hidden" id="login-modal">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-arrow-right-to-bracket text-cyan"></i> Sign In to yourBD</h3>
+        <button class="btn-close-modal" id="btn-close-login">&times;</button>
+      </div>
+      <div class="divider"></div>
+      
+      <div class="modal-body">
+        <p class="modal-intro text-sm opacity-80 mb-4">Unlock profile autofill, flight save features, and earn Biman Loyalty Miles discounts on every checkout.</p>
+        
+        <!-- Easy quick login selectors -->
+        <div class="quick-credentials-box mb-4">
+          <label class="text-xs font-bold opacity-75 mb-2 block">QUICK SELECT FOR TESTING</label>
+          <div class="quick-profile-buttons">
+            <button type="button" class="btn-quick-user" id="quick-user-1">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&fit=crop&q=80" alt="Tanvir">
+              <div class="quick-lbl">
+                <strong>Tanvir Rahman</strong>
+                <span>4,500 Miles</span>
+              </div>
+            </button>
+            <button type="button" class="btn-quick-user" id="quick-user-2">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&fit=crop&q=80" alt="Sadia">
+              <div class="quick-lbl">
+                <strong>Sadia Chowdhury</strong>
+                <span>8,200 Miles</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="separator-text"><span>OR ENTER DETAILS</span></div>
+
+        <form id="login-form">
+          <div class="input-group">
+            <label for="login-email">Email Address</label>
+            <input type="email" id="login-email" placeholder="tanvir@example.com" value="tanvir@example.com" required>
+          </div>
+          <div class="input-group mt-3">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" value="••••••••" required>
+          </div>
+          
+          <button type="submit" class="btn btn-primary w-full mt-6">
+            <span>SIGN IN INSTANTLY</span>
+            <i class="fa-solid fa-right-to-bracket btn-icon"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bookings History Modal Overlay -->
+  <div class="modal-overlay hidden" id="bookings-modal">
+    <div class="modal-card glass-card" style="max-width: 620px; width: 95%;">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-clock-rotate-left text-cyan"></i> Your Speedrun Bookings</h3>
+        <button class="btn-close-modal" id="btn-close-bookings">&times;</button>
+      </div>
+      <div class="divider"></div>
+      
+      <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding-right: 0.5rem;" id="bookings-history-list">
+        <!-- Dynamically rendered past bookings list -->
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="app.js"></script>
+</body>
+</html>
